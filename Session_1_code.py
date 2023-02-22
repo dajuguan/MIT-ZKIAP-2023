@@ -16,7 +16,7 @@ def dlogProof(x, g, p):
     h = np.array([])  #proof 1
     for r in r_arr:
         h = np.append(h,cal_exp(g,r) % p) 
-    b = pseudoRandomBits(y,g,p,ROUND_OF_VERIFY)
+    b = pseudoRandomBits(h,g,p,ROUND_OF_VERIFY)
     s = (r_arr + b*x) % (p -1)    # proof 3
     pf = (h,s)
     return (y, pf)
@@ -28,8 +28,8 @@ def cal_exp(x,exp):
     else:
         return x * half * half
 
-def pseudoRandomBits(y,g,p,ROUND_OF_VERIFY):
-    seed = np.sum(y)
+def pseudoRandomBits(h,g,p,ROUND_OF_VERIFY):
+    seed = np.sum(h)
     hash = cal_exp(g,seed) % p
     b = np.array([])
     for i in range(0,ROUND_OF_VERIFY):
@@ -43,7 +43,7 @@ def pseudoRandomBits(y,g,p,ROUND_OF_VERIFY):
 # Verifier computes A^s(mod p) which should equal hy^b(mod p).
 def verify(y,g,p,pf):
     (h,s) = pf
-    b = pseudoRandomBits(y,g,p,ROUND_OF_VERIFY)
+    b = pseudoRandomBits(h,g,p,ROUND_OF_VERIFY)
     lhs = (g**s) % p
     rhs = (h*(y**b)) % p
     res = reduce(lambda l,r: l and r, lhs == rhs) 
