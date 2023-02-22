@@ -82,7 +82,7 @@ component main { public [in]}  = Selector(3);
 Mental model of (**negative**) integer denotation:
 ```
 p = 21888242871839275222246405745257275088548364400416034343698204186575808495617.
-fiedl element range: 0-------p/2---------p
+field element range: 0-------p/2---------p
 positive: 0, 1, ..., p/2-1
 negative: p-1 => -1, p-2=>-2, p-3==> -3, ..., p-(p/2-1) => -(p/2 -1)
 ```
