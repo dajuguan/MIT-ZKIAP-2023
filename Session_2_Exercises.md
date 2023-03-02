@@ -2,26 +2,27 @@
 
 ```
 template Num2Bits (nBits) {
-    signal input a;
-    signal output b[nBits];
+    signal input in;
+    signal output out[nBits];
 
     var sum = 0;
     for (var i = 0; i< nBits; i++){
-        b[i] <--  (a >> i) & 1;
-        b[i] * (b[i] -1) === 0;
-        sum = sum + 2**i*b[i];
+        out[i] <--  (in >> i) & 1;
+        out[i] * (out[i] -1) === 0;
+        sum = sum + 2**i*out[i];
     }
 
-    a === sum;
+    in === sum;
 }
 
-component main { public [a]}  = Num2Bits(5);
+component main { public [in]}  = Num2Bits(5);
 /* INPUT = {
-    "a": "5"
+    "in": "5"
 } */
 ```
 
 # IsZero
+## wrong answer
 ```
 template IsZero () {
     signal input in;
@@ -30,6 +31,25 @@ template IsZero () {
     inv <-- in != 0 ? 0 : 1;
     out <== inv;
     out*(out -1) === 0;
+}
+
+component main { public [in]}  = IsZero();
+
+/* INPUT = {
+    "in": "0"
+} */
+```
+
+## correct
+```
+template IsZero () {
+    signal input in;
+    signal output out;
+    signal inv;
+    inv <-- in!=0 ? 1/in : 0;
+
+    out <== -in*inv +1;
+    in*out === 0;
 }
 
 component main { public [in]}  = IsZero();
@@ -59,6 +79,7 @@ component main { public [in]}  = IsEqual();
 ```
 
 # Selector
+## wrong answer
 ```
 template Selector(nChoices) {
     signal input in[nChoices];
@@ -78,6 +99,38 @@ component main { public [in]}  = Selector(3);
 } */
 ```
 
+## correct
+
+```
+template QuinSelector(choices) {
+    signal input in[choices];
+    signal input index;
+    signal output out;
+    
+    // Ensure that index < choices
+    component lessThan = LessThan(4);
+    lessThan.in[0] <== index;
+    lessThan.in[1] <== choices;
+    lessThan.out === 1;
+
+    component calcTotal = CalculateTotal(choices);
+    component eqs[choices];
+
+    // For each item, check whether its index equals the input index.
+    for (var i = 0; i < choices; i ++) {
+        eqs[i] = IsEqual();
+        eqs[i].in[0] <== i;
+        eqs[i].in[1] <== index;
+
+        // eqs[i].out is 1 if the index matches. As such, at most one input to
+        // calcTotal is not 0.
+        calcTotal.in[i] <== eqs[i].out * in[i];
+    }
+
+    // Returns 0 + 0 + 0 + item
+    out <== calcTotal.out;
+}
+```
 # IsNegative
 Mental model of (**negative**) integer denotation:
 ```
@@ -116,6 +169,7 @@ A: The defination of [Relational operator](https://docs.circom.io/circom-languag
 
 ## Extension 1
 ### LessThan
+#### wrong answer
 ```
 template LessThan(k) {
     assert(k<=252);
@@ -124,6 +178,25 @@ template LessThan(k) {
     signal temp;
     temp <-- in[0] < in[1] ?  1 : 0;
     out <== temp;
+}
+
+component main { public [in]}  = LessThan(252);
+
+/* INPUT = {
+    "in": ["7237005577332262213973186563042994240829374041602535252466099000494570602493","7237005577332262213973186563042994240829374041602535252466099000494570602492"]
+} */
+```
+#### correct answer
+```
+template LessThan(n) {
+    assert(n<=252);
+    signal input in[2];
+    signal output out;
+    component n2b = Num2Bits(n+1);
+
+    n2b.in <== in[0]+ (1<<n) - in[1];
+
+    out <== 1-n2b.out[n];
 }
 
 component main { public [in]}  = LessThan(252);

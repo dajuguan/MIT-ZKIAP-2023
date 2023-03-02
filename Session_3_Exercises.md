@@ -3,7 +3,7 @@
 Q:  if QR(m,x) = 0 and both parties behave according to the protocol, then the Verifier always accepts.
 
 A: There are two cases to check.
-1. if b = 0, we should check that $ s^2x$ is not a quadratic residue mod m. Suppose $QR(m,s^2x)=1$ , i.e., there exists an integer $r$ such that $ r^2 \equiv s^2x \:(mod\:m)$. Because $s$ is relatively prime to $m$, there must exist an integer $z$ such that $(r^2 - s^2z^2) \equiv 0 \:(mod\:m)$. So $z^2 \equiv x \:(mod\:m)$, it violates the assumption that $QR(m,x)=0$. Thus, if b=0, then $QR(m,y)=0$.
+1. if b = 0, we should check that $ s^2x$ is not a quadratic residue mod m. Suppose $QR(m,s^2x)=1$ , i.e., there exists an integer $r$ such that $r^2 \equiv s^2x \:(mod\:m)$. Because $s$ is relatively prime to $m$, there must exist an integer $z$ such that $(r^2 - s^2z^2) \equiv 0 \:(mod\:m)$. So $z^2 \equiv x \:(mod\:m)$, it violates the assumption that $QR(m,x)=0$. Thus, if b=0, then $QR(m,y)=0$.
 
 2. if b = 1, it's easy to see there exists an integer $s$ such that  $QR(m,y) = 1$.
 
