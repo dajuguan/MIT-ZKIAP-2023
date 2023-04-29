@@ -14,7 +14,7 @@ $$
 \sum_i [powersOfX_i] * [monimialCoeffs_i] 
 $$
 
-但是上述系数是拉格朗日插值系数，需要将其转化为FFT逆变换得到的频率系数。***为什么要这么做，未理解***。需要注意的是要保证commit多项式的阶数不能大于powers_of_x的阶数。然后就是计算上述公式，这里可以仔细分析下`ec_lincomb`这个函数，如果直接迭代求解则加法和程序的运算次数是O(n),这里则通过[递归计算](https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication)将乘法和加法的次数从直接降到了O(log n)
+但是上述系数是拉格朗日插值系数，需要将其转化为FFT逆变换得到的频率系数。***为什么要这么做，未理解***。需要注意的是要保证commit多项式的阶数不能大于powers_of_x的阶数。然后就是计算上述公式，这里可以仔细分析下`ec_lincomb`这个函数，如果直接迭代求解则加法和程序的运算次数是O(n),这里则通过[递归计算](https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication)将乘法和加法的次数从直接降到了O(log n)，[代码见](https://github.com/ethereum/py_ecc/blob/a1d18addb439d7659a9cbac861bf1518371f0afd/py_ecc/bn128/bn128_curve.py#LL100C1-L110C58)。
 
 ```
 # Elliptic curve point multiplication
