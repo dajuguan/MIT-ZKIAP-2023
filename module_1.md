@@ -10,6 +10,7 @@ commit本质上是将用户输入的多项式系数，即`test.py`中的:
     )
 ```
 commit到setup中从from_file中选取的-组秘密参数`powers_of_x`，即计算:
+
 $$
 \sum_i [powersOfX_i] * [monimialCoeffs_i] 
 $$
