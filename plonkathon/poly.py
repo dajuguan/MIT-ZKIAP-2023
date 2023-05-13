@@ -66,8 +66,6 @@ class Polynomial:
 
 
     def __mul__(self, other):
-        print("other------->",other)
-
         if isinstance(other, Polynomial):
             assert self.basis == Basis.LAGRANGE
             assert self.basis == other.basis
@@ -180,7 +178,7 @@ class Polynomial:
 
     # Given a polynomial expressed as a list of evaluations at roots of unity,
     # evaluate it at x directly, without using an FFT to covert to coeffs first
-    def barycentric_eval(self, x: Scalar):
+    def barycentric_eval(self, x: Scalar):    #直接在evaluation_form来求值O(n)
         assert self.basis == Basis.LAGRANGE
 
         order = len(self.values)

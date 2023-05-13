@@ -3,3 +3,4 @@ venv
 # Remove jupyter notebook stuff
 *.ipynb
 settings.json
+PLONK_reading/*

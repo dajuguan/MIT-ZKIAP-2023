@@ -263,10 +263,10 @@ if __name__ == "__main__":
     # Step 1: Pass setup test
     setup_test()
 
-    # setup = basic_test()
+    setup = basic_test()
 
     # # Step 2: Pass prover test using verifier we provide (DO NOT READ TEST VERIFIER CODE)
-    # prover_test_dummy_verifier(setup)
+    prover_test_dummy_verifier(setup)
 
     # # Step 3: Pass verifier test using your own verifier
     # with open("test/proof.pickle", "rb") as f:

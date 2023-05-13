@@ -33,6 +33,7 @@ class Setup(object):
             )
         ]
         assert max(values) < b.field_modulus
+        print("b.field_modulus-------->",b.field_modulus)
         # The points are encoded in a weird encoding, where all x and y points
         # are multiplied by a factor (for montgomery optimization?). We can
         # extract the factor because we know the first point is the generator.
@@ -72,7 +73,7 @@ class Setup(object):
         if len(monimial_coeffs.values) > len(self.powers_of_x):
             raise Exception("Not enough powers in setup")
         commitment = ec_lincomb([(x,c) for x,c in zip(self.powers_of_x, monimial_coeffs.values)])
-        print("commitment------->",commitment)
+        # print("commitment------->",commitment)
         return commitment
 
     # Generate the verification key for this program with the given setup
